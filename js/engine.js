@@ -45,8 +45,11 @@ var Engine = (function(global) {
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
+        
         update(dt);
         render();
+
+        score();
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -103,6 +106,14 @@ var Engine = (function(global) {
      * they are flipbooks creating the illusion of animation but in reality
      * they are just drawing the entire screen over and over.
      */
+
+    function score(num) {
+        ctx.font = "26pt Impact";
+        ctx.strokeStyle = "#33CC33";
+        ctx.fillText("Score:" + num, 450, 110);
+    }
+
+
     function render() {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
@@ -155,6 +166,11 @@ var Engine = (function(global) {
         });
 
         player.render();
+
+        stars.forEach(function(star) {
+            star.render();
+        });
+
     }
 
     /* This function does nothing but it could have been a good place to
@@ -174,7 +190,9 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
+        'images/enemy-bug2.png',
         'images/char-boy.png',
+        'images/Star.png',
         'images/char-horn-girl.png'
     ]);
     Resources.onReady(init);

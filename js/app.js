@@ -9,7 +9,12 @@ var Enemy = function(x, y, speed, dr) {
     // this.speed = speed
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+    if (this.dr == 1) {
+        this.sprite = 'images/enemy-bug.png';
+    } else {
+        this.sprite = 'images/enemy-bug2.png';
+    }
+    
 };
 
 // Update the enemy's position, required method for game
@@ -18,19 +23,18 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    if (dr == 1) {
+    if (this.dr == 1) {
         this.x += this.speed * dt;
+        if (this.x > 606) {
+            this.x = -50;
+        };
     } else {
         this.x -= this.speed * dt;
+        if (this.x < -100) {
+            this.x = 650;
+        };
     };
     
-    if (this.x > 606) {
-        this.x = -50;
-    };
-
-    if (this.x == Player.x) {
-        player.resetGame();
-    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -102,12 +106,12 @@ Player.prototype.resetGame = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var allEnemies = [new Enemy(200, 130, 120),
-                  new Enemy(100, 215, 50),
-                  new Enemy(200, 300, 150),
-                  new Enemy(300, 385, 210),
-                  new Enemy(0, 470, 60),
-                  new Enemy(150, 555, 180)];
+var allEnemies = [new Enemy(200, 130, 120, 1),
+                  new Enemy(100, 215, 50, -1),
+                  new Enemy(200, 300, 150, 1),
+                  new Enemy(300, 385, 210, -1),
+                  new Enemy(0, 470, 60, -1),
+                  new Enemy(150, 555, 180, 1)];
 
 var player = new Player(100,640);
 
@@ -124,3 +128,25 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+
+
+// **************************************************************************************
+
+var Stars = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.sprite = 'images/Star.png';
+};
+
+Stars.prototype.update = function(dt) {
+    // this.x * dt;
+    // this.y * dt;
+};
+
+Stars.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+var stars = [new Stars(300, 300)]
+    
