@@ -49,7 +49,7 @@ var Engine = (function(global) {
         update(dt);
         render();
 
-        score();
+        level();
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -107,10 +107,11 @@ var Engine = (function(global) {
      * they are just drawing the entire screen over and over.
      */
 
-    function score(num) {
+    function level() {
         ctx.font = "26pt Impact";
         ctx.strokeStyle = "#33CC33";
-        ctx.fillText("Score:" + num, 450, 110);
+        var level = ((allEnemies[0].l - 1) / 0.5).toFixed(0);
+        ctx.fillText("Level:" + level, 450, 110);
     }
 
 

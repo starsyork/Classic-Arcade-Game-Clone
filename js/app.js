@@ -1,11 +1,14 @@
 // Enemies our player must avoid
-var Enemy = function(x, y, speed, dr) {
+
+
+var Enemy = function(x, y, speed, dr, l) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = x;
     this.y = y;
     this.speed = speed;
     this.dr = dr;
+    this.l = l;
     // this.speed = speed
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -24,12 +27,12 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     if (this.dr == 1) {
-        this.x += this.speed * dt;
+        this.x += this.speed * dt * this.l;
         if (this.x > 606) {
             this.x = -50;
         };
     } else {
-        this.x -= this.speed * dt;
+        this.x -= this.speed * dt * this.l;
         if (this.x < -100) {
             this.x = 650;
         };
@@ -41,6 +44,8 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+
 
 
 // Now write your own player class
@@ -59,6 +64,7 @@ Player.prototype.update = function(dt) {
     // this.x * dt;
     // this.y * dt;
     this.collision();
+    this.upLevel();
 };
 
 Player.prototype.render = function() {
@@ -90,9 +96,23 @@ Player.prototype.handleInput = function(direction) {
 Player.prototype.collision = function() {
     for (var i = 0; i < allEnemies.length; i++) {
         if (allEnemies[i].x + 50 > this.x && allEnemies[i].x - 50 < this.x && allEnemies[i].y == this.y) {
-            console.log(allEnemies[i].x, allEnemies[i].y);
+            for (var i = 0; i < allEnemies.length; i++) {
+                allEnemies[i].l = 1;
+            }
+            alert("Game Over");
             this.resetGame();
         }
+    }
+};
+
+Player.prototype.upLevel = function() {
+
+    if (250 > this.x && 150 < this.x && 45 == this.y) {
+        alert("LEVEL UP !!");
+        for (var i = 0; i < allEnemies.length; i++) {
+            allEnemies[i].l += 0.5;
+        }
+        this.resetGame();    
     }
 };
 
@@ -106,12 +126,12 @@ Player.prototype.resetGame = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var allEnemies = [new Enemy(200, 130, 120, 1),
-                  new Enemy(100, 215, 50, -1),
-                  new Enemy(200, 300, 150, 1),
-                  new Enemy(300, 385, 210, -1),
-                  new Enemy(0, 470, 60, -1),
-                  new Enemy(150, 555, 180, 1)];
+var allEnemies = [new Enemy(200, 130, 120, 1, 1),
+                  new Enemy(100, 215, 50, -1, 1),
+                  new Enemy(200, 300, 150, 1, 1),
+                  new Enemy(300, 385, 210, -1, 1),
+                  new Enemy(0, 470, 60, -1, 1),
+                  new Enemy(150, 555, 180, 1, 1)];
 
 var player = new Player(100,640);
 
@@ -140,13 +160,12 @@ var Stars = function(x, y) {
 };
 
 Stars.prototype.update = function(dt) {
-    // this.x * dt;
-    // this.y * dt;
+
 };
 
 Stars.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-var stars = [new Stars(300, 300)]
+var stars = [new Stars(200, 45)]
     
